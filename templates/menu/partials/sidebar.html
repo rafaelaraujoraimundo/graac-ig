@@ -1,0 +1,25 @@
+{% load static %}
+<div class="iq-sidebar">
+    <div class="iq-navbar-logo d-flex justify-content-between">
+       <a href="{% url "index" %}" class="header-logo">
+          <img src="{% static 'images/Logo.png'  %}" class="" alt="">
+          <span></span>
+       </a>
+
+    </div>
+    <div id="sidebar-scrollbar">
+       <nav class="iq-sidebar-menu">
+          <ul id="iq-sidebar-toggle" class="iq-menu collapse show">
+            <li  {% if activegroup == 'Exame' %} class="active" {% endif %}>
+               <a href="#Exames" class="iq-waves-effect collapsed" data-toggle="collapse" {% if activegroup == 'Exame' %} aria-expanded="true" {% else %} aria-expanded="false" {% endif %} > <span class="ripple rippleEffect"></span><i class="ri-hospital-line iq-arrow-left"></i><span>Exames</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+               <ul id="Exames" {% if activegroup == 'Exame' %} class="iq-submenu collapse show"  {% else %} class="iq-submenu collapse" {% endif %} data-parent="#iq-sidebar-toggle">
+                
+                 <li  class="active"><a href="{% url 'exames_orientacoes_fleury' %}"><i class="ri-stethoscope-fill"></i>Orientações</a></li>
+                                 
+               </ul>
+            </li>   
+          </ul>
+       </nav>
+       <div class="p-3"></div>
+    </div>
+ </div>

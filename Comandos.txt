@@ -1,0 +1,108 @@
+#INstala o Django
+pip install django
+
+#Executa o freeze para o arquivo para reinstalar em outro lugar
+pip freeze > requirements.txt
+
+#Criar o projeto com o ponto no final para criar na pasta atual
+
+ django-admin startproject django1 .
+
+#Cria App
+#Sempre tem que adicionar o app dentro de settings na chave INSTALLED_APPS
+django-admin startapp core
+
+
+#Iniciar servidor django
+ python manage.py runserver
+ 
+ python manage.py runserver 0.0.0.0:8000
+
+
+#dentro do setting.py pode trocar a linguagem para pt-br
+# é nescessário criar o arquivo urls.py (rotas) em cada aplicativo
+#separar aplicativos por função - Produtos, Carrinho, loja, etc
+
+#Cria as migrations dos modelos que foram criados dentro do model.py para serem migrados para o banco de dados
+python manage.py makemigrations
+
+#Cria as tabelas dentro do Banco
+python manage.py migrate
+
+#isntalar a biblioteca whitenoise e gunicorn para a producao
+pip install whitenoise gunicorn
+
+
+Ativar VENV
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\venv\Scripts\activate
+
+git init
+ssh-keygen
+
+(venv) PS D:\Projetos\Django\curso-django-projeto1> ssh-keygen
+Your identification has been saved in C:\Users\Rafael Araujo/.ssh/id_rsa
+Your public key has been saved in C:\Users\Rafael Araujo/.ssh/id_rsa.pub
+
+git remote add origin git@github.com:rafaelaraujoraimundo/curso-django-projeot1.git
+
+git remote -v
+
+##############
+Grupos e Itens de Menus
+
+Grupo - Ligado com o grupo do Django,
+
+#Cron-tab
+python manage.py crontab add
+python manage.py crontab show
+python manage.py crontab remove
+
+
+#Celery
+Videos de Configuração
+#Configurar Celery
+https://www.youtube.com/watch?v=b-6mEAr1m-A
+#Configurar Celery Beat para agendamento de tarefas no Django
+https://www.youtube.com/watch?si=yUSCpZOSB1I-PVac&v=evMYrqI2W_M&feature=youtu.be
+
+
+
+#execução WIndows
+celery -A combio worker --pool=threads --concurrency=8
+#execução Linux
+celery -A combio worker -l INFO -E 
+
+#celery beat 
+celery -A combio beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+Iniciar REDIS
+#INstalar e Iniciar WSL no windows
+wsl --install
+
+#para isntalar
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+
+sudo apt-get update
+sudo apt-get install redis
+
+#Para iniciar
+sudo service redis-server start
+
+@Para testar
+redis-cli ping
+a repsosta deverá ser: PONG
+
+
+#Docker compose.
+#Build do projeto
+docker-compose build
+docker-compose up -d
+docker-compose down
+
+
+
+DOCKER_COMPOSE
+Precisa iniciar primeiro o app depois o ngnix e depois o zrok_sahred nessa ordem para nao ter problema

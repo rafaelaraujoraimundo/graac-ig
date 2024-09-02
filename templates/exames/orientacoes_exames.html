@@ -1,0 +1,70 @@
+{% extends "menu/index.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="iq-card">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">Escolha o Exame:</h4>
+           </div>
+        </div>
+        <div class="iq-card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" list="fruits" id="fruitInput" name="fruitDisplay" autocomplete="off" oninput="setFruitCode()">
+                    <datalist id="fruits">
+                        {% for exame in exames_list %}
+                            <option data-value="{{ exame.ID_PROD_CD_PRODUTO }}" value="{{ exame.PROD_SL_EXAME }} - {{ exame.PROD_NO_EXAME }}">
+                        {% endfor %}
+                    </datalist>
+
+                    <!-- Campo oculto para armazenar o código -->
+                    <input type="hidden" id="fruitCode" name="fruitCode">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exibir os detalhes do produto se estiverem disponíveis -->
+    {% if product_details %}
+    <div class="d-flex flex-column align-items-center">
+        <p class="h1 mb-3">Exame: {{ product_details.0.nomeProduto }}</p>
+        <p class="h3 mb-3">Sigla: {{ product_details.0.siglaProduto }}</p>
+    </div>
+  
+    <ul>
+        {% for instrucao in product_details.0.instrucoesGerais %}
+        <div class="iq-card">
+            <div class="iq-card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                    <h4 class="card-title">{{ instrucao.nomeInstrucaoGeral }}</h4>
+                </div>
+            </div>
+            <div class="iq-card-body">
+                <p>{{ instrucao.textoInstrucao|safe|linebreaksbr }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <script>
+        function setFruitCode() {
+            const input = document.getElementById('fruitInput');
+            const datalist = document.getElementById('fruits');
+            const hiddenInput = document.getElementById('fruitCode');
+            
+            const option = Array.from(datalist.options).find(option => option.value === input.value);
+            
+            if (option) {
+                hiddenInput.value = option.getAttribute('data-value');
+            } else {
+                hiddenInput.value = ''; // Limpa o campo oculto se não houver correspondência
+            }
+        }
+    </script>
+</div>
+{% endblock %}
